@@ -13,7 +13,7 @@
   <!-- ENCABEZADO -->
   <header class="topbar">
     <div class="marca">
-      <svg viewBox="0 0 40 50" width="40" height="50" fill="none" stroke="#fff" stroke-width="3">
+      <svg class="logo-rombo" viewBox="0 0 40 50" width="40" height="50" fill="none" stroke="#fff" stroke-width="3">
         <polygon points="20,2 38,25 20,48 2,25" />
         <polygon points="20,14 29,25 20,36 11,25" />
       </svg>
@@ -23,6 +23,7 @@
       </div>
     </div>
     <div class="titulo-sistema">Sistema de Préstamo<br>de Netbooks</div>
+    <div class="usuario"><span class="avatar">👤</span> Usuario</div>
   </header>
 
   <div class="layout">
@@ -31,6 +32,7 @@
     <aside class="sidebar">
       <nav>
         <button class="nav-item activo" data-target="inicio">🏠 Inicio</button>
+        <button class="nav-item" data-target="registrar">💻 Registrar préstamo</button>
         <button class="nav-item" data-target="devolver">↩️ Devolver equipo</button>
         <button class="nav-item" data-target="historial">🕒 Ver historial</button>
         <button class="nav-item" data-target="equipos">💻 Equipos disponibles</button>
@@ -60,7 +62,7 @@
           <input type="text" id="prestamo-curso" placeholder="Ej: 6 A">
 
           <label for="prestamo-equipo">Número del equipo</label>
-          <input type="text" id="prestamo-equipo" placeholder="Ej: NB - 007 | NB - 001 Hasta NB - 010">
+          <input type="text" id="prestamo-equipo" placeholder="Ej: NB - 033">
 
           <div id="mensaje-prestamo" class="mensaje"></div>
           <button id="btn-registrar" class="btn-amarillo">➕ Registrar préstamo</button>
@@ -74,7 +76,7 @@
 
         <div class="tarjeta">
           <label for="devolucion-equipo">Número del equipo</label>
-          <input type="text" id="devolucion-equipo" placeholder="Ej: NB - 007 | NB - 001 Hasta NB - 010">
+          <input type="text" id="devolucion-equipo" placeholder="Ej: NB - 033">
 
           <label for="devolucion-alumno">Nombre del alumno</label>
           <input type="text" id="devolucion-alumno" placeholder="Ingresa el nombre completo">

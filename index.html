@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Préstamo de Netbooks</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ENCABEZADO -->
+  <header class="topbar">
+    <div class="marca">
+      <svg class="logo-rombo" viewBox="0 0 40 50" width="40" height="50" fill="none" stroke="#fff" stroke-width="3">
+        <polygon points="20,2 38,25 20,48 2,25" />
+        <polygon points="20,14 29,25 20,36 11,25" />
+      </svg>
+      <div class="marca-texto">
+        <span>INSTITUTO TÉCNICO</span>
+        <strong>RENAULT</strong>
+      </div>
+    </div>
+    <div class="titulo-sistema">Sistema de Préstamo<br>de Netbooks</div>
+    <div class="usuario"><span class="avatar">👤</span> Usuario</div>
+  </header>
+
+  <div class="layout">
+
+    <!-- MENÚ LATERAL -->
+    <aside class="sidebar">
+      <nav>
+        <button class="nav-item activo" data-target="inicio">🏠 Inicio</button>
+        <button class="nav-item" data-target="registrar">💻 Registrar préstamo</button>
+        <button class="nav-item" data-target="devolver">↩️ Devolver equipo</button>
+        <button class="nav-item" data-target="historial">🕒 Ver historial</button>
+        <button class="nav-item" data-target="equipos">💻 Equipos disponibles</button>
+      </nav>
+      <div class="edt">
+        <strong>EDT</strong>
+        <small>Escuela de talentos</small>
+        <em>Arrancá tu futuro</em>
+      </div>
+    </aside>
+
+    <!-- CONTENIDO -->
+    <main class="contenido">
+
+      <!-- INICIO / REGISTRAR PRÉSTAMO -->
+      <section id="inicio" class="seccion visible">
+        <h1>¡Bienvenido!</h1>
+        <p class="subtitulo">Gestioná el préstamo y devolución de netbooks de forma rápida y simple.</p>
+
+        <div class="tarjeta">
+          <h2>💻 Registrar préstamo</h2>
+
+          <label for="prestamo-alumno">Nombre del alumno</label>
+          <input type="text" id="prestamo-alumno" placeholder="Ingresa el nombre completo">
+
+          <label for="prestamo-curso">Curso</label>
+          <input type="text" id="prestamo-curso" placeholder="Ej: 6 A">
+
+          <label for="prestamo-equipo">Número del equipo</label>
+          <input type="text" id="prestamo-equipo" placeholder="Ej: NB - 033">
+
+          <div id="mensaje-prestamo" class="mensaje"></div>
+          <button id="btn-registrar" class="btn-amarillo">➕ Registrar préstamo</button>
+        </div>
+      </section>
+
+      <!-- DEVOLVER EQUIPO -->
+      <section id="devolver" class="seccion">
+        <h1>Devolver equipo</h1>
+        <p class="subtitulo">Ingresa los datos de la notebook y alumno para registrar la devolución.</p>
+
+        <div class="tarjeta">
+          <label for="devolucion-equipo">Número del equipo</label>
+          <input type="text" id="devolucion-equipo" placeholder="Ej: NB - 033">
+
+          <label for="devolucion-alumno">Nombre del alumno</label>
+          <input type="text" id="devolucion-alumno" placeholder="Ingresa el nombre completo">
+
+          <div id="mensaje-devolucion" class="mensaje"></div>
+          <button id="btn-devolver" class="btn-amarillo">↩️ Confirmar devolución</button>
+        </div>
+      </section>
+
+      <!-- HISTORIAL -->
+      <section id="historial" class="seccion">
+        <h1>🕒 Historial de préstamos</h1>
+        <p class="subtitulo">Consulta los registros de préstamos y devoluciones de notebooks.</p>
+
+        <div class="tabla-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Nombre del alumno</th>
+                <th>Curso</th>
+                <th>N° de equipo</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody id="tabla-historial"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- EQUIPOS DISPONIBLES -->
+      <section id="equipos" class="seccion">
+        <h1>💻 Equipos disponibles</h1>
+        <p class="subtitulo">Consulta los equipos disponibles para registrar tu préstamo.</p>
+
+        <div class="tabla-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>N° de equipo</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody id="tabla-equipos"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <div class="aviso">💻 ¡Usa tu Notebook responsablemente!</div>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

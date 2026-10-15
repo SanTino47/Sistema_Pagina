@@ -1,0 +1,183 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: #f1f3f6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ENCABEZADO */
+.topbar {
+  background: #111;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 30px;
+  gap: 20px;
+}
+
+.marca { display: flex; align-items: center; gap: 14px; }
+.marca-texto { display: flex; flex-direction: column; border-left: 2px solid #fff; padding-left: 14px; line-height: 1.1; }
+.marca-texto span { font-size: 15px; font-weight: 500; }
+.marca-texto strong { font-size: 26px; font-weight: 700; }
+
+.titulo-sistema { font-size: 14px; text-align: center; }
+
+.usuario { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+.avatar {
+  background: #fff;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+}
+
+/* LAYOUT */
+.layout { display: flex; flex: 1; }
+
+.sidebar {
+  width: 260px;
+  background: #e9ebef;
+  padding: 20px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.nav-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 12px 16px;
+  margin-bottom: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 30px;
+  cursor: pointer;
+  color: #111;
+  transition: background 0.2s;
+}
+.nav-item:hover { background: #d6d9df; }
+.nav-item.activo { background: #ffd600; }
+
+.edt { text-align: center; padding: 20px 0; }
+.edt strong { font-size: 30px; display: block; }
+.edt small { display: block; font-size: 12px; }
+.edt em { color: #e6c200; font-size: 12px; }
+
+/* CONTENIDO */
+.contenido { flex: 1; padding: 20px 40px 30px; position: relative; }
+
+.seccion { display: none; }
+.seccion.visible { display: block; }
+
+h1 { font-size: 36px; font-weight: 800; color: #111; }
+.subtitulo { color: #8a96a3; font-weight: 600; font-size: 15px; margin-bottom: 20px; }
+
+.tarjeta {
+  background: #fff;
+  border-radius: 18px;
+  padding: 24px 40px 30px;
+  max-width: 640px;
+}
+.tarjeta h2 { font-size: 22px; margin-bottom: 14px; }
+
+label { display: block; font-weight: 600; font-size: 14px; margin: 14px 0 6px; }
+
+input {
+  width: 100%;
+  padding: 10px 18px;
+  border: 2px solid #999;
+  border-radius: 30px;
+  background: #f4f4f4;
+  font-size: 14px;
+  outline: none;
+}
+input:focus { border-color: #ffd600; background: #fff; }
+input.error { border-color: #d32f2f; background: #fff3f3; }
+
+.btn-amarillo {
+  display: block;
+  margin: 22px auto 0;
+  background: #ffd600;
+  border: none;
+  padding: 10px 30px;
+  border-radius: 30px;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+}
+.btn-amarillo:hover { background: #f5c800; }
+
+/* MENSAJES */
+.mensaje {
+  display: none;
+  margin-top: 16px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+}
+.mensaje.error { display: block; background: #fdecea; color: #b71c1c; }
+.mensaje.exito { display: block; background: #e8f5e9; color: #1b5e20; }
+
+/* TABLAS */
+.tabla-wrap {
+  max-height: 420px;
+  overflow-y: auto;
+  background: #fff;
+  border-radius: 6px;
+}
+table { width: 100%; border-collapse: collapse; }
+thead th {
+  background: #8e9aa5;
+  padding: 12px;
+  font-size: 14px;
+  position: sticky;
+  top: 0;
+}
+tbody td {
+  padding: 12px;
+  text-align: center;
+  border: 1px solid #ddd;
+  font-size: 14px;
+}
+.vacio { color: #888; padding: 30px; }
+
+.estado-disponible { color: #1b5e20; font-weight: 700; }
+.estado-uso { color: #b71c1c; font-weight: 700; }
+
+/* AVISO INFERIOR */
+.aviso {
+  margin: 30px auto 0;
+  max-width: 480px;
+  background: #111;
+  color: #fff;
+  text-align: center;
+  padding: 12px 20px;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 14px;
+  border-right: 40px solid #ffd600;
+}
+
+/* RESPONSIVE */
+@media (max-width: 800px) {
+  .layout { flex-direction: column; }
+  .sidebar { width: 100%; }
+  .edt { display: none; }
+  .titulo-sistema { display: none; }
+  .contenido { padding: 20px; }
+  .tarjeta { padding: 20px; }
+}

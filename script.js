@@ -1,5 +1,5 @@
 // ------------------ CONFIGURACIÓN ------------------
-const TOTAL_EQUIPOS = 10; // NB - 001 hasta NB - 010
+const TOTAL_EQUIPOS = 100; // NB - 001 hasta NB - 100
 
 // Cursos válidos: del 1 al 7, con A o B
 const OPCIONES_CURSOS = [];
@@ -8,8 +8,9 @@ for (let i = 1; i <= 7; i++) {
 }
 
 // ------------------ DATOS ------------------
-let equipos = JSON.parse(localStorage.getItem("equipos_v2")) || crearEquipos();
-let historial = JSON.parse(localStorage.getItem("historial_v2")) || [];
+// Claves "v3" para no mezclar con los datos viejos de 10 equipos
+let equipos = JSON.parse(localStorage.getItem("equipos_v3")) || crearEquipos();
+let historial = JSON.parse(localStorage.getItem("historial_v3")) || [];
 
 function crearEquipos() {
   const lista = [];
@@ -25,8 +26,8 @@ function crearEquipos() {
 }
 
 function guardarDatos() {
-  localStorage.setItem("equipos_v2", JSON.stringify(equipos));
-  localStorage.setItem("historial_v2", JSON.stringify(historial));
+  localStorage.setItem("equipos_v3", JSON.stringify(equipos));
+  localStorage.setItem("historial_v3", JSON.stringify(historial));
 }
 
 // ------------------ ELEMENTOS ------------------
@@ -56,6 +57,7 @@ function irASeccion(destino) {
     item.classList.toggle("activo", item.dataset.target === destino);
   });
 
+  // Los formularios siempre quedan vacíos: nada se guarda en Inicio
   limpiarFormularios();
 
   if (destino === "historial") mostrarHistorial();
@@ -72,6 +74,7 @@ function mostrarMensaje(elemento, texto, tipo) {
   elemento.textContent = texto;
   elemento.className = "mensaje " + tipo;
 
+  // El mensaje de éxito desaparece solo a los 3 segundos
   if (tipo === "exito") {
     temporizadorMensaje = setTimeout(() => {
       elemento.textContent = "";
@@ -92,7 +95,7 @@ function limpiarFormularios() {
   });
 }
 
-// Acepta "1", "NB-001", "NB - 001", "nb1"... y lo convierte a "NB - 001"
+// Acepta "1", "33", "NB-001", "NB - 001", "nb1"... y lo convierte a "NB - 001"
 function formatearEquipo(texto) {
   const numeros = texto.replace(/\D/g, "");
   if (numeros === "") return null;
@@ -157,7 +160,7 @@ document.getElementById("btn-registrar").addEventListener("click", () => {
   const numero = formatearEquipo(prestamoEquipo.value);
   if (!numero) {
     prestamoEquipo.classList.add("error");
-    mostrarMensaje(mensajePrestamo, "⚠️ El equipo no existe. Ingresá un número del 001 al 010.", "error");
+    mostrarMensaje(mensajePrestamo, "⚠️ El equipo no existe. Ingresá un número del 001 al 100.", "error");
     return;
   }
 
@@ -204,7 +207,7 @@ document.getElementById("btn-devolver").addEventListener("click", () => {
   const numero = formatearEquipo(devolucionEquipo.value);
   if (!numero) {
     devolucionEquipo.classList.add("error");
-    mostrarMensaje(mensajeDevolucion, "⚠️ El equipo no existe. Ingresá un número del 001 al 010.", "error");
+    mostrarMensaje(mensajeDevolucion, "⚠️ El equipo no existe. Ingresá un número del 001 al 100.", "error");
     return;
   }
 

@@ -1,8 +1,13 @@
 // ------------------ CONFIGURACIÓN ------------------
 const TOTAL_EQUIPOS = 10; // NB - 001 hasta NB - 010
 
+// Cursos válidos: del 1 al 7, con A o B
+const OPCIONES_CURSOS = [];
+for (let i = 1; i <= 7; i++) {
+  OPCIONES_CURSOS.push(i + " A", i + " B");
+}
+
 // ------------------ DATOS ------------------
-// Se usan claves nuevas ("v2") para no mezclar con los datos viejos de 40 equipos
 let equipos = JSON.parse(localStorage.getItem("equipos_v2")) || crearEquipos();
 let historial = JSON.parse(localStorage.getItem("historial_v2")) || [];
 
@@ -44,21 +49,17 @@ let temporizadorMensaje;
 
 // ------------------ NAVEGACIÓN ------------------
 function irASeccion(destino) {
-  // "inicio" y "registrar" muestran el mismo formulario
-  const idSeccion = destino === "registrar" ? "inicio" : destino;
-
   secciones.forEach(s => s.classList.remove("visible"));
-  document.getElementById(idSeccion).classList.add("visible");
+  document.getElementById(destino).classList.add("visible");
 
   navItems.forEach(item => {
     item.classList.toggle("activo", item.dataset.target === destino);
   });
 
-  // Los formularios siempre quedan vacíos: nada se guarda en Inicio / Registrar préstamo
   limpiarFormularios();
 
-  if (idSeccion === "historial") mostrarHistorial();
-  if (idSeccion === "equipos") mostrarEquipos();
+  if (destino === "historial") mostrarHistorial();
+  if (destino === "equipos") mostrarEquipos();
 }
 
 navItems.forEach(item => {
@@ -71,7 +72,6 @@ function mostrarMensaje(elemento, texto, tipo) {
   elemento.textContent = texto;
   elemento.className = "mensaje " + tipo;
 
-  // El mensaje de éxito desaparece solo a los 3 segundos
   if (tipo === "exito") {
     temporizadorMensaje = setTimeout(() => {
       elemento.textContent = "";
@@ -92,13 +92,20 @@ function limpiarFormularios() {
   });
 }
 
-// Acepta "1", "33", "NB-001", "NB - 001", "nb1"... y lo convierte a "NB - 001"
+// Acepta "1", "NB-001", "NB - 001", "nb1"... y lo convierte a "NB - 001"
 function formatearEquipo(texto) {
   const numeros = texto.replace(/\D/g, "");
   if (numeros === "") return null;
   const n = parseInt(numeros, 10);
   if (n < 1 || n > TOTAL_EQUIPOS) return null;
   return "NB - " + String(n).padStart(3, "0");
+}
+
+// Acepta "5 A", "5A", "5 a"... y lo convierte a "5 A". Devuelve null si no es válido
+function formatearCurso(texto) {
+  const coincidencia = texto.trim().match(/^([1-7])\s*([abAB])$/);
+  if (!coincidencia) return null;
+  return coincidencia[1] + " " + coincidencia[2].toUpperCase();
 }
 
 function normalizar(texto) {
@@ -139,12 +146,18 @@ document.getElementById("btn-registrar").addEventListener("click", () => {
   }
 
   const alumno = prestamoAlumno.value.trim();
-  const curso = prestamoCurso.value.trim();
+
+  const curso = formatearCurso(prestamoCurso.value);
+  if (!curso) {
+    prestamoCurso.classList.add("error");
+    mostrarMensaje(mensajePrestamo, "⚠️ El curso no es válido. Las opciones son: " + OPCIONES_CURSOS.join(", ") + ".", "error");
+    return;
+  }
 
   const numero = formatearEquipo(prestamoEquipo.value);
   if (!numero) {
     prestamoEquipo.classList.add("error");
-    mostrarMensaje(mensajePrestamo, `⚠️ El equipo no existe. Ingresá un número del 1 al ${TOTAL_EQUIPOS}.`, "error");
+    mostrarMensaje(mensajePrestamo, "⚠️ El equipo no existe. Ingresá un número del 001 al 010.", "error");
     return;
   }
 
@@ -152,7 +165,7 @@ document.getElementById("btn-registrar").addEventListener("click", () => {
 
   if (equipo.estado === "En uso") {
     prestamoEquipo.classList.add("error");
-    mostrarMensaje(mensajePrestamo, `⚠️ El equipo ${numero} ya está en uso.`, "error");
+    mostrarMensaje(mensajePrestamo, "⚠️ El equipo " + numero + " ya está en uso.", "error");
     return;
   }
 
@@ -172,11 +185,11 @@ document.getElementById("btn-registrar").addEventListener("click", () => {
 
   guardarDatos();
 
-  // 3) El formulario de inicio queda vacío (no se almacena nada ahí)
+  // 3) El formulario queda vacío
   prestamoAlumno.value = "";
   prestamoCurso.value = "";
   prestamoEquipo.value = "";
-  mostrarMensaje(mensajePrestamo, `✅ Préstamo registrado: ${numero} para ${alumno}.`, "exito");
+  mostrarMensaje(mensajePrestamo, "✅ Préstamo registrado: " + numero + " para " + alumno + ".", "exito");
 });
 
 // ------------------ DEVOLVER EQUIPO ------------------
@@ -191,7 +204,7 @@ document.getElementById("btn-devolver").addEventListener("click", () => {
   const numero = formatearEquipo(devolucionEquipo.value);
   if (!numero) {
     devolucionEquipo.classList.add("error");
-    mostrarMensaje(mensajeDevolucion, `⚠️ El equipo no existe. Ingresá un número del 1 al ${TOTAL_EQUIPOS}.`, "error");
+    mostrarMensaje(mensajeDevolucion, "⚠️ El equipo no existe. Ingresá un número del 001 al 010.", "error");
     return;
   }
 
@@ -199,13 +212,13 @@ document.getElementById("btn-devolver").addEventListener("click", () => {
 
   if (equipo.estado === "Disponible") {
     devolucionEquipo.classList.add("error");
-    mostrarMensaje(mensajeDevolucion, `⚠️ El equipo ${numero} ya está disponible, no tiene un préstamo activo.`, "error");
+    mostrarMensaje(mensajeDevolucion, "⚠️ El equipo " + numero + " ya está disponible, no tiene un préstamo activo.", "error");
     return;
   }
 
   if (normalizar(equipo.alumno) !== normalizar(alumno)) {
     devolucionAlumno.classList.add("error");
-    mostrarMensaje(mensajeDevolucion, `⚠️ El equipo ${numero} fue prestado a otro alumno. Revisá el nombre.`, "error");
+    mostrarMensaje(mensajeDevolucion, "⚠️ El equipo " + numero + " fue prestado a otro alumno. Revisá el nombre.", "error");
     return;
   }
 
@@ -227,13 +240,13 @@ document.getElementById("btn-devolver").addEventListener("click", () => {
 
   devolucionEquipo.value = "";
   devolucionAlumno.value = "";
-  mostrarMensaje(mensajeDevolucion, `✅ Devolución registrada: ${numero} ya está disponible.`, "exito");
+  mostrarMensaje(mensajeDevolucion, "✅ Devolución registrada: " + numero + " ya está disponible.", "exito");
 });
 
 // ------------------ MOSTRAR TABLAS ------------------
 function mostrarHistorial() {
   if (historial.length === 0) {
-    tablaHistorial.innerHTML = `<tr><td colspan="5" class="vacio">Todavía no hay registros.</td></tr>`;
+    tablaHistorial.innerHTML = '<tr><td colspan="5" class="vacio">Todavía no hay registros.</td></tr>';
     return;
   }
 
